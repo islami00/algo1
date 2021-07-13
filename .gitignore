@@ -1,0 +1,22 @@
+#ignore venv dir
+venv/
+#ignore files in venv
+venv/bin
+venv/include
+venv/lib
+venv/lib64
+venv/pyvenv.cfg
+
+#ignore idea files
+.idea/workspace.xml
+.idea/csc102.iml
+.idea/inspectionProfiles
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
+
+#ignore idea dir
+.idea/
+
+# ignore error file
+"class6/problem33/Enter complete path to output file:\n"
