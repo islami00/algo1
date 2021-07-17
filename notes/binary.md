@@ -29,3 +29,12 @@ And thanks to indexing, we can simply specify this by incrementing to move right
 
 Now, if for some reason your set is ordered in descending order.
 Reverse the meaning of the above.
+
+# Difference between recursive and iterative implementation
+
+1. Recursive binary search strips out the common part of the answer
+2. Then runs our modification each other time
+
+Note this is true for linear too as both repeat the same core check , just varying input.
+Hence it was sohard to do this iteratively. 
+**Recursive works for searches**

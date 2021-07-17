@@ -8,7 +8,7 @@ def binary_search(search_list, target):
     # So this covers the range of our search
     while first <= last:
         # First step, determine the midpoint of our sorted list, which is essentially the average item. Our first guess!
-        midpoint = (first + last) // 2  # rounding to avoid decimals. Like time.
+        midpoint = (first + last) // 2  # rounding down because len is actual index final +1 and midpoint refers to an index.
         if search_list[midpoint] == target:
             return midpoint  # this is the best case, get it right on first try
         elif search_list[
