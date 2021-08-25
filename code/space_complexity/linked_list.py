@@ -1,19 +1,30 @@
+import sys
+import traceback
+
 
 class Node:
     """
     An object for storing a single node of a linked list.
     Models two attributes: Data and the link to the next node in the list
+
+
     """
     data = None
     next_node = None
 
     def __init__(self, data):
-        self.data = data
+        """
+
+        :param data: Any
+        """
+        if isinstance(data, Node):
+            self.data = data.data
+        else:
+            self.data = data
 
     def __repr__(self):
-        if isinstance(self.data, str) and not self.data.__contains__('\''):
-            self.data = "\'%s\'" % self.data
-        return "<Node data: %s>" % self.data
+        represent = Node(self.data)
+        return "<Node data: %s>" % represent.data.__repr__()
 
 
 class LinkedList:
@@ -77,7 +88,8 @@ class LinkedList:
             else:
                 current = current.next_node
         return None
-    def insert(self, data,index : int):
+
+    def insert(self, data, index: int):
         """
         Inserts a new Node containing data at index position
         Insertion takes 0(1) time but finding the node at the
@@ -98,15 +110,81 @@ class LinkedList:
             current = self.head
 
             while position > 1:
-                    current = current.next_node
-                    position -= 1
-                # stop right before where we want to insert
+                current = current.next_node
+                position -= 1
+            # stop right before where we want to insert
 
             prev_node = current
             next_node = current.next_node
             # insert switcheroo
             prev_node.next_node = new
             new.next_node = next_node
+
+    def remove(self, key):
+        """
+        Removes the first node whose data matches the key
+        Returns the removed node if successful.
+        Otherwise, returns None
+
+        :param key: Any
+        :return: Node or None
+        """
+        current = self.head
+        previous = None
+        found = False
+
+        # takes care of tail scenario
+        while (current is not None) and not found:
+
+            # Case: key matches current node's data and current is the head of the list
+            if current.data == key and current is self.head:
+                found = True
+                self.head = current.next_node
+
+            elif current.data == key:
+                found = True
+                previous.next_node = current.next_node
+            # This bit keeps track from the beginning
+            else:
+                previous = current
+                current = current.next_node
+        # to take care of our stray node:
+        if found:
+            return current
+
+    def remove_at_index(self, index: int):
+        """
+        Inserts a node at the index.
+        Returns the inserted node or None if not found
+
+        :param index: int
+        :return: Node or None
+        """
+
+        current = self.head
+        if index == 0:
+            self.head = current.next_node
+            return current
+
+        if (index > 0) and index < self.size():
+
+            position = index
+            # move to right before the target
+            while position > 1:
+                position -= 1
+                current = current.next_node
+
+            previous = current
+            # move a step forward
+            target = current.next_node
+            after_target = target.next_node
+
+            previous.next_node = after_target
+            return target
+        else:
+            tb = sys.exc_info()[2]
+            sys.exc_info()
+            raise IndexError(f"Index is out of range").with_traceback(tb)
 
     def __repr__(self):
         """
@@ -120,15 +198,15 @@ class LinkedList:
         current = self.head
 
         while current is not None:
-            if isinstance(current.data, str) and not current.data.__contains__('\''):
-                current.data = "\'%s\'" % current.data
+            representable = Node(current)
+
             if current is self.head:
-                nodes.append("[Head: %s]" % current.data)
+                nodes.append("[Head: %s]" % representable.data.__repr__())
             elif current.next_node is None:
 
-                nodes.append("[Tail: %s]" % current.data)
+                nodes.append("[Tail: %s]" % representable.data.__repr__())
             else:
-                nodes.append("[%s]" % current.data)
+                nodes.append("[%s]" % representable.data.__repr__())
             current = current.next_node
         return '->'.join(nodes)
 
@@ -140,9 +218,17 @@ l.prepend('s')
 l.prepend('s')
 l.prepend('22')
 l.prepend(22)
+l.prepend([1, 2])
 b = l.search(22)
 c = l.search('22')
 d = l.search('s')
 print(l)
-l.insert(11,2)
+l.insert(11, 2)
 print(l)
+# can improve the structure by making it easier to use
+a = l.remove('s')
+print(a)
+#  Doesn't support 2d linked lists as we set nodes to not nest each other
+print(l.size())
+print(l.remove_at_index(2))
+
