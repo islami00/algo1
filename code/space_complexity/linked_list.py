@@ -1,5 +1,4 @@
 import sys
-import traceback
 
 
 class Node:
@@ -162,6 +161,7 @@ class LinkedList:
         """
 
         current = self.head
+        previous = None
         if index == 0:
             self.head = current.next_node
             return current
@@ -176,7 +176,7 @@ class LinkedList:
                 current = current.next_node
             # remove switcheroo
             previous.next_node = current.next_node
-            
+
             return current
         else:
             tb = sys.exc_info()[2]
@@ -256,4 +256,5 @@ print(a)
 #  Doesn't support 2d linked lists as we set nodes to not nest each other
 print(l.size())
 print(l.remove_at_index(2))
-
+print(l.size())
+print(l.node_at_index(2))
