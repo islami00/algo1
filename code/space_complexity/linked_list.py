@@ -154,8 +154,8 @@ class LinkedList:
 
     def remove_at_index(self, index: int):
         """
-        Inserts a node at the index.
-        Returns the inserted node or None if not found
+        Removes a node at the index.
+        Returns the removed node or None if not found (index error) 
 
         :param index: int
         :return: Node or None
@@ -178,6 +178,34 @@ class LinkedList:
             previous.next_node = current.next_node
             
             return current
+        else:
+            tb = sys.exc_info()[2]
+            sys.exc_info()
+            raise IndexError(f"Index is out of range").with_traceback(tb)
+
+    def node_at_index(self, index: int):
+        """
+        Finds a node at the index.
+        Returns the found node or None if not found (Index error)
+
+        :param index: int
+        :return: Node or None
+        """
+
+        current = self.head
+        if index == 0:
+            return current
+
+        if (index > 0) and index < self.size():
+
+            position = index
+            # get to the target
+            while position > 0:
+                position -= 1
+                current = current.next_node
+            # callback
+            return current
+
         else:
             tb = sys.exc_info()[2]
             sys.exc_info()
