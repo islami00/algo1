@@ -169,18 +169,15 @@ class LinkedList:
         if (index > 0) and index < self.size():
 
             position = index
-            # move to right before the target
-            while position > 1:
+            # get to the target
+            while position > 0:
                 position -= 1
+                previous = current
                 current = current.next_node
-
-            previous = current
-            # move a step forward
-            target = current.next_node
-            after_target = target.next_node
-
-            previous.next_node = after_target
-            return target
+            # remove switcheroo
+            previous.next_node = current.next_node
+            
+            return current
         else:
             tb = sys.exc_info()[2]
             sys.exc_info()
